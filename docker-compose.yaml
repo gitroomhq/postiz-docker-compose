@@ -15,7 +15,7 @@ services:
       TEMPORAL_ADDRESS: "temporal:7233"
       IS_GENERAL: 'true'
       DISABLE_REGISTRATION: 'false'
-      RUN_CRON: true
+      RUN_CRON: 'true'
 
       # === Storage Settings
       STORAGE_PROVIDER: 'local'
