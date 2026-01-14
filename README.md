@@ -37,7 +37,8 @@ Then run:
 docker compose up
 ```
 
-Wait for it to access:
+Wait for it to load:
+
 Open your website on https://localhost:4007
 
 ---
