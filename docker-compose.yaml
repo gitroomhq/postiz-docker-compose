@@ -176,6 +176,22 @@ services:
     networks:
       - postiz-network
 
+  # Cloudflare Tunnel — routes active public hostnames
+  postiz-cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: postiz-cloudflared
+    restart: always
+    command: tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
+    volumes:
+      - /Users/jeff/services/postiz/cloudflared-config.yml:/etc/cloudflared/config.yml:ro
+      - /Users/jeff/.cloudflared/edfdb928-18b9-4ae5-bcd4-997e8d830ee4.json:/etc/cloudflared/edfdb928-18b9-4ae5-bcd4-997e8d830ee4.json:ro
+    networks:
+      - postiz-network
+      - infisical_infisical
+    depends_on:
+      postiz:
+        condition: service_healthy
+
   # -----------------------
   # Temporal Stack
   # -----------------------
@@ -320,3 +336,5 @@ networks:
   temporal-network:
     driver: bridge
     name: temporal-network
+  infisical_infisical:
+    external: true

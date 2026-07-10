@@ -1,0 +1,8 @@
+tunnel: edfdb928-18b9-4ae5-bcd4-997e8d830ee4
+credentials-file: /etc/cloudflared/edfdb928-18b9-4ae5-bcd4-997e8d830ee4.json
+ingress:
+  - hostname: socials.hayekian.io
+    service: http://postiz:5000
+  - hostname: secrets.jripperjr.com
+    service: http://infisical-backend:8080
+  - service: http_status:404
