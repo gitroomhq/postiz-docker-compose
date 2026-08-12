@@ -3,11 +3,14 @@ services:
     image: ghcr.io/gitroomhq/postiz-app:latest
     container_name: postiz
     restart: always
+    env_file:
+      - path: postiz.env
+        required: false
     environment:
       # === Required Settings
-      MAIN_URL: 'http://localhost:4007'
-      FRONTEND_URL: 'http://localhost:4007'
-      NEXT_PUBLIC_BACKEND_URL: 'http://localhost:4007/api'
+      MAIN_URL: '${POSTIZ_MAIN_URL:-https://postiz.telekvirtualreality.com}'
+      FRONTEND_URL: '${POSTIZ_FRONTEND_URL:-https://postiz.telekvirtualreality.com}'
+      NEXT_PUBLIC_BACKEND_URL: '${POSTIZ_BACKEND_URL:-https://postiz.telekvirtualreality.com/api}'
       JWT_SECRET: 'random string that is unique to every install - just type random characters here!'
       DATABASE_URL: 'postgresql://postiz-user:postiz-password@postiz-postgres:5432/postiz-db-local'
       REDIS_URL: 'redis://postiz-redis:6379'
@@ -44,8 +47,6 @@ services:
       BEEHIIVE_PUBLICATION_ID: ''
       THREADS_APP_ID: ''
       THREADS_APP_SECRET: ''
-      FACEBOOK_APP_ID: ''
-      FACEBOOK_APP_SECRET: ''
       YOUTUBE_CLIENT_ID: ''
       YOUTUBE_CLIENT_SECRET: ''
       TIKTOK_CLIENT_ID: ''
@@ -113,7 +114,7 @@ services:
       - postiz-config:/config/
       - postiz-uploads:/uploads/
     ports:
-      - "4007:5000"
+      - "127.0.0.1:${POSTIZ_HOST_PORT:-4007}:5000"
     networks:
       - postiz-network
       - temporal-network
@@ -284,7 +285,7 @@ services:
     networks:
       - temporal-network
     ports:
-      - '127.0.0.1:8080:8080'
+      - '127.0.0.1:8088:8080'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
       interval: 30s
